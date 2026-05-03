@@ -13,18 +13,18 @@ export default async function AdminDashboard() {
         <LogoutButton />
       </div>
 
-      <div className="glass" style={{ borderRadius: "var(--radius-md)", overflow: "hidden" }}>
+      <div className="glass" style={{ borderRadius: "var(--radius-md)", overflowX: "auto" }}>
         <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left" }}>
           <thead>
             <tr style={{ background: "rgba(2, 132, 199, 0.05)", borderBottom: "2px solid var(--border)" }}>
-              <th style={{ padding: "1rem" }}>ID</th>
-              <th style={{ padding: "1rem" }}>Дата</th>
-              <th style={{ padding: "1rem" }}>Клиент</th>
-              <th style={{ padding: "1rem" }}>Телефон</th>
-              <th style={{ padding: "1rem" }}>Лъжички</th>
+              <th style={{ padding: "1rem", whiteSpace: "nowrap" }}>ID</th>
+              <th style={{ padding: "1rem", whiteSpace: "nowrap" }}>Дата</th>
+              <th style={{ padding: "1rem", whiteSpace: "nowrap" }}>Клиент</th>
+              <th style={{ padding: "1rem", whiteSpace: "nowrap" }}>Телефон</th>
+              <th style={{ padding: "1rem", whiteSpace: "nowrap" }}>Лъжички</th>
               <th style={{ padding: "1rem" }}>Адрес</th>
-              <th style={{ padding: "1rem" }}>Статус</th>
-              <th style={{ padding: "1rem" }}>Действие</th>
+              <th style={{ padding: "1rem", whiteSpace: "nowrap" }}>Статус</th>
+              <th style={{ padding: "1rem", whiteSpace: "nowrap" }}>Действие</th>
             </tr>
           </thead>
           <tbody>
@@ -37,19 +37,19 @@ export default async function AdminDashboard() {
             ) : (
               orders.map((order) => (
                 <tr key={order.id} style={{ borderBottom: "1px solid var(--border)" }}>
-                  <td style={{ padding: "1rem" }}>#{order.id}</td>
-                  <td style={{ padding: "1rem" }}>{new Date(order.createdat!).toLocaleDateString('bg-BG')}</td>
-                  <td style={{ padding: "1rem", fontWeight: "500" }}>{order.name}</td>
-                  <td style={{ padding: "1rem" }}>{order.phone}</td>
-                  <td style={{ padding: "1rem", fontWeight: "bold", color: "var(--primary-dark)" }}>{order.scoops} бр.</td>
-                  <td style={{ padding: "1rem", maxWidth: "300px", wordBreak: "break-word" }}>{order.address}</td>
-                  <td style={{ padding: "1rem" }}>
+                  <td style={{ padding: "1rem", whiteSpace: "nowrap" }}>#{order.id}</td>
+                  <td style={{ padding: "1rem", whiteSpace: "nowrap" }}>{new Date(order.createdat!).toLocaleDateString('bg-BG')}</td>
+                  <td style={{ padding: "1rem", fontWeight: "500", whiteSpace: "nowrap" }}>{order.name}</td>
+                  <td style={{ padding: "1rem", whiteSpace: "nowrap" }}>{order.phone}</td>
+                  <td style={{ padding: "1rem", fontWeight: "bold", color: "var(--primary-dark)", whiteSpace: "nowrap" }}>{order.scoops} бр.</td>
+                  <td style={{ padding: "1rem", minWidth: "200px", maxWidth: "300px", wordBreak: "break-word" }}>{order.address}</td>
+                  <td style={{ padding: "1rem", whiteSpace: "nowrap" }}>
                     {order.status === 'pending' 
                       ? <span className="badge" style={{ background: "rgba(245, 158, 11, 0.1)", color: "#d97706" }}>Чакаща</span>
                       : <span className="badge" style={{ background: "rgba(16, 185, 129, 0.1)", color: "var(--success)" }}>Завършена</span>
                     }
                   </td>
-                  <td style={{ padding: "1rem" }}>
+                  <td style={{ padding: "1rem", whiteSpace: "nowrap" }}>
                     <AdminOrderActions orderId={order.id!} status={order.status} />
                   </td>
                 </tr>
