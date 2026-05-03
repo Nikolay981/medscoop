@@ -9,8 +9,4 @@ services:
       - key: NODE_ENV
         value: production
       - key: DB_PATH
-        value: /data/orders.db
-    disk:
-      name: data
-      mountPath: /data
-      sizeGB: 1
+        value: orders.db
