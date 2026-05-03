@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: medscoop
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DB_PATH
+        value: /data/orders.db
+    disk:
+      name: data
+      mountPath: /data
+      sizeGB: 1
