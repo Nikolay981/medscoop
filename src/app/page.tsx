@@ -15,6 +15,9 @@ export default function Home() {
         <p className={`${styles.subtitle} animate-fade-in delay-3`}>
           Мистериозна кутия, пълна със сестрински артикули – практични, сладурски и полезни неща за ежедневието в болницата и извън нея.
         </p>
+        <a href="#order" className="btn btn-primary animate-fade-in delay-3 mobileOnly">
+          Поръчай сега
+        </a>
       </header>
 
       <div className="container">
@@ -47,7 +50,7 @@ export default function Home() {
               <li className={styles.listItem}><CheckCircle2 size={20} color="var(--success)" /> За всеки, който иска да зарадва своя любима сестра</li>
             </ul>
           </div>
-          <div className={`glass ${styles.card} ${styles.orderSection}`}>
+          <div id="order" className={`glass ${styles.card} ${styles.orderSection}`}>
             <h3 className={styles.cardTitle}><Gift color="var(--primary)" /> Поръчай своята кутия</h3>
             <OrderForm />
           </div>
