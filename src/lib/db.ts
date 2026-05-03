@@ -1,7 +1,5 @@
-import Database from 'better-sqlite3';
-import path from 'path';
+import { sql } from '@vercel/postgres';
 
-// Define the shape of our order
 export interface Order {
   id?: number;
   name: string;
@@ -9,39 +7,35 @@ export interface Order {
   address: string;
   scoops: number;
   status: 'pending' | 'completed';
-  createdAt?: string;
+  createdat?: string;
 }
 
-const dbPath = process.env.DB_PATH || path.resolve(process.cwd(), 'orders.db');
-const db = new Database(dbPath);
+export async function initDb() {
+  await sql`
+    CREATE TABLE IF NOT EXISTS orders (
+      id SERIAL PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      phone VARCHAR(50) NOT NULL,
+      address TEXT NOT NULL,
+      scoops INTEGER NOT NULL,
+      status VARCHAR(50) DEFAULT 'pending',
+      createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+  `;
+}
 
-// Initialize DB schema
-db.exec(`
-  CREATE TABLE IF NOT EXISTS orders (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    phone TEXT NOT NULL,
-    address TEXT NOT NULL,
-    scoops INTEGER NOT NULL,
-    status TEXT DEFAULT 'pending',
-    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
-  )
-`);
-
-export function createOrder(order: Order) {
-  const stmt = db.prepare(`
+export async function createOrder(order: Order) {
+  return sql`
     INSERT INTO orders (name, phone, address, scoops, status)
-    VALUES (@name, @phone, @address, @scoops, 'pending')
-  `);
-  return stmt.run(order);
+    VALUES (${order.name}, ${order.phone}, ${order.address}, ${order.scoops}, 'pending')
+  `;
 }
 
-export function getOrders(): Order[] {
-  const stmt = db.prepare('SELECT * FROM orders ORDER BY createdAt DESC');
-  return stmt.all() as Order[];
+export async function getOrders(): Promise<Order[]> {
+  const { rows } = await sql`SELECT * FROM orders ORDER BY createdat DESC`;
+  return rows as Order[];
 }
 
-export function updateOrderStatus(id: number, status: 'pending' | 'completed') {
-  const stmt = db.prepare('UPDATE orders SET status = @status WHERE id = @id');
-  return stmt.run({ id, status });
+export async function updateOrderStatus(id: number, status: 'pending' | 'completed') {
+  return sql`UPDATE orders SET status = ${status} WHERE id = ${id}`;
 }

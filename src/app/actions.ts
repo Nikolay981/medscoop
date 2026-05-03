@@ -15,7 +15,7 @@ export async function submitOrder(formData: FormData) {
     throw new Error("Missing fields");
   }
 
-  createOrder({
+  await createOrder({
     name,
     phone,
     address,
@@ -40,7 +40,7 @@ export async function loginAdmin(formData: FormData) {
 
 export async function markOrderCompleted(id: number) {
   const { updateOrderStatus } = await import("@/lib/db");
-  updateOrderStatus(id, 'completed');
+  await updateOrderStatus(id, 'completed');
 }
 
 export async function logoutAdmin() {

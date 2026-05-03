@@ -1,8 +1,10 @@
 import { getOrders } from "@/lib/db";
 import { AdminOrderActions, LogoutButton } from "./components";
 
+export const dynamic = 'force-dynamic';
+
 export default async function AdminDashboard() {
-  const orders = getOrders();
+  const orders = await getOrders();
 
   return (
     <div style={{ padding: "2rem", maxWidth: "1200px", margin: "0 auto", minHeight: "100vh" }}>
@@ -36,7 +38,7 @@ export default async function AdminDashboard() {
               orders.map((order) => (
                 <tr key={order.id} style={{ borderBottom: "1px solid var(--border)" }}>
                   <td style={{ padding: "1rem" }}>#{order.id}</td>
-                  <td style={{ padding: "1rem" }}>{new Date(order.createdAt!).toLocaleDateString('bg-BG')}</td>
+                  <td style={{ padding: "1rem" }}>{new Date(order.createdat!).toLocaleDateString('bg-BG')}</td>
                   <td style={{ padding: "1rem", fontWeight: "500" }}>{order.name}</td>
                   <td style={{ padding: "1rem" }}>{order.phone}</td>
                   <td style={{ padding: "1rem", fontWeight: "bold", color: "var(--primary-dark)" }}>{order.scoops} бр.</td>
