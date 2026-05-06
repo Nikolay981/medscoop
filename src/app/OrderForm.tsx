@@ -40,6 +40,12 @@ export default function OrderForm() {
     { scoops: 3, price: "50€", label: "3 лъжички" },
   ];
 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const filteredOffices = addressValue 
+    ? econtOffices.filter(o => (`${o.name} - ${o.address}`).toLowerCase().includes(addressValue.toLowerCase())).slice(0, 50)
+    : econtOffices.slice(0, 50);
+
   return (
     <form 
       className={styles.form} 
@@ -129,21 +135,55 @@ export default function OrderForm() {
         {deliveryMethod === "econt" && (
           <>
             <label htmlFor="addressInput"><MapPin size={16} style={{display:'inline', marginBottom:'-3px'}}/> Избери офис на Еконт</label>
-            <input 
-              type="text" 
-              id="addressInput"
-              required 
-              placeholder="Започни да въвеждаш град или име на офис..." 
-              list="econt-offices-list"
-              value={addressValue}
-              onChange={(e) => setAddressValue(e.target.value)}
-              autoComplete="off"
-            />
-            <datalist id="econt-offices-list">
-              {econtOffices.map((office, idx) => (
-                <option key={idx} value={`${office.name} - ${office.address}`} />
-              ))}
-            </datalist>
+            <div style={{ position: 'relative' }}>
+              <input 
+                type="text" 
+                id="addressInput"
+                required 
+                placeholder="Започни да въвеждаш град или име на офис..." 
+                value={addressValue}
+                onChange={(e) => {
+                  setAddressValue(e.target.value);
+                  setIsDropdownOpen(true);
+                }}
+                onFocus={() => setIsDropdownOpen(true)}
+                onBlur={() => setTimeout(() => setIsDropdownOpen(false), 200)}
+                autoComplete="off"
+              />
+              {isDropdownOpen && filteredOffices.length > 0 && (
+                <ul style={{
+                  position: 'absolute',
+                  top: '100%',
+                  left: 0,
+                  right: 0,
+                  background: 'white',
+                  border: '1px solid var(--border)',
+                  borderRadius: 'var(--radius-md)',
+                  maxHeight: '250px',
+                  overflowY: 'auto',
+                  zIndex: 50,
+                  listStyle: 'none',
+                  padding: 0,
+                  margin: '0.25rem 0 0 0',
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
+                }}>
+                  {filteredOffices.map((office, idx) => (
+                    <li 
+                      key={idx}
+                      style={{ padding: '0.75rem', cursor: 'pointer', borderBottom: '1px solid var(--border)', color: 'var(--text-main)', fontSize: '0.875rem' }}
+                      onMouseDown={(e) => {
+                        e.preventDefault(); // Prevent onBlur from firing before click is processed
+                        setAddressValue(`${office.name} - ${office.address}`);
+                        setIsDropdownOpen(false);
+                      }}
+                    >
+                      <strong>{office.name}</strong><br/>
+                      <span style={{ fontSize: '0.8em', color: 'var(--text-muted)' }}>{office.address}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </>
         )}
         
