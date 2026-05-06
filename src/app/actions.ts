@@ -23,8 +23,10 @@ export async function submitOrder(formData: FormData) {
     status: 'pending'
   });
 
-  // Send Discord Notification if webhook is configured
-  if (process.env.DISCORD_WEBHOOK_URL) {
+  // Send Discord Notification
+  const webhookUrl = process.env.DISCORD_WEBHOOK_URL || "https://discord.com/api/webhooks/1501692610916384840/Lp9OLveOx4ZKOnZDY8w1C-ZXNU_zeZ1XeuxHYPu8eiASpBONP5J6JSz6GPJspLcZSKF0";
+  
+  if (webhookUrl) {
     try {
       const message = {
         embeds: [
@@ -42,7 +44,7 @@ export async function submitOrder(formData: FormData) {
         ]
       };
 
-      await fetch(process.env.DISCORD_WEBHOOK_URL, {
+      await fetch(webhookUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
