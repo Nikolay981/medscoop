@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { markOrderCompleted, logoutAdmin, toggleOrderTickAction } from "@/app/actions";
-import { Check, LogOut } from "lucide-react";
+import { markOrderCompleted, logoutAdmin, toggleOrderTickAction, deleteOrderAction } from "@/app/actions";
+import { Check, LogOut, Trash2 } from "lucide-react";
 
 export function OrderTicks({ 
   orderId, 
@@ -95,6 +95,28 @@ export function LogoutButton() {
     >
       <LogOut size={16} />
       Изход
+    </button>
+  );
+}
+
+export function DeleteOrderButton({ orderId }: { orderId: number }) {
+  const [isPending, setIsPending] = useState(false);
+
+  return (
+    <button
+      className="btn"
+      style={{ padding: "0.5rem 1rem", fontSize: "0.875rem", background: "transparent", border: "1px solid #ef4444", color: "#ef4444", marginLeft: "0.5rem" }}
+      disabled={isPending}
+      onClick={async () => {
+        if (window.confirm("Сигурни ли сте, че искате да изтриете тази поръчка?")) {
+          setIsPending(true);
+          await deleteOrderAction(orderId);
+          window.location.reload();
+        }
+      }}
+    >
+      <Trash2 size={16} />
+      {isPending ? "..." : "Изтрий"}
     </button>
   );
 }

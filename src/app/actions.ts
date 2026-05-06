@@ -48,6 +48,11 @@ export async function toggleOrderTickAction(id: number, field: 'is_done' | 'is_t
   await toggleOrderTick(id, field, value);
 }
 
+export async function deleteOrderAction(id: number) {
+  const { deleteOrder } = await import("@/lib/db");
+  await deleteOrder(id);
+}
+
 export async function logoutAdmin() {
   const cookieStore = await cookies();
   cookieStore.delete("medscoop_admin");

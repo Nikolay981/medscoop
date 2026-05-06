@@ -65,3 +65,7 @@ export async function toggleOrderTick(id: number, field: 'is_done' | 'is_taken' 
   if (field === 'is_sent') return sql`UPDATE orders SET is_sent = ${value} WHERE id = ${id}`;
   if (field === 'is_uploaded') return sql`UPDATE orders SET is_uploaded = ${value} WHERE id = ${id}`;
 }
+
+export async function deleteOrder(id: number) {
+  return sql`DELETE FROM orders WHERE id = ${id}`;
+}

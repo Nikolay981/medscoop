@@ -1,5 +1,5 @@
 import { getOrders } from "@/lib/db";
-import { AdminOrderActions, LogoutButton, OrderTicks } from "./components";
+import { AdminOrderActions, LogoutButton, OrderTicks, DeleteOrderButton } from "./components";
 
 export const dynamic = 'force-dynamic';
 
@@ -60,7 +60,10 @@ export default async function AdminDashboard() {
                     />
                   </td>
                   <td style={{ padding: "1rem", whiteSpace: "nowrap" }}>
-                    <AdminOrderActions orderId={order.id!} status={order.status} />
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <AdminOrderActions orderId={order.id!} status={order.status} />
+                      <DeleteOrderButton orderId={order.id!} />
+                    </div>
                   </td>
                 </tr>
               ))
