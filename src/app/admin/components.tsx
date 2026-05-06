@@ -45,12 +45,12 @@ export function OrderTicks({
         Направено
       </label>
       <label style={tickStyle}>
-        <input type="checkbox" checked={ticks.is_taken} onChange={() => handleToggle('is_taken')} />
-        Взето
-      </label>
-      <label style={tickStyle}>
         <input type="checkbox" checked={ticks.is_sent} onChange={() => handleToggle('is_sent')} />
         Изпратено
+      </label>
+      <label style={tickStyle}>
+        <input type="checkbox" checked={ticks.is_taken} onChange={() => handleToggle('is_taken')} />
+        Взето
       </label>
       <label style={tickStyle}>
         <input type="checkbox" checked={ticks.is_uploaded} onChange={() => handleToggle('is_uploaded')} />
