@@ -97,34 +97,34 @@ export default function OrderForm() {
 
       <div className="input-group">
         <label><Truck size={16} style={{ display: 'inline', marginBottom: '-3px' }} /> Начин на доставка</label>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.5rem' }}>
+        <div style={{ display: 'flex', gap: '1rem', marginTop: '0.5rem', flexWrap: 'wrap' }}>
           <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
-            <input
-              type="radio"
-              name="deliveryMethod"
-              value="econt"
-              checked={deliveryMethod === "econt"}
-              onChange={() => { setDeliveryMethod("econt"); setAddressValue(""); }}
+            <input 
+              type="radio" 
+              name="deliveryMethod" 
+              value="econt" 
+              checked={deliveryMethod === "econt"} 
+              onChange={() => { setDeliveryMethod("econt"); setAddressValue(""); }} 
             />
             До офис на Еконт
           </label>
           <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
-            <input
-              type="radio"
-              name="deliveryMethod"
-              value="speedy"
-              checked={deliveryMethod === "speedy"}
-              onChange={() => { setDeliveryMethod("speedy"); setAddressValue(""); }}
+            <input 
+              type="radio" 
+              name="deliveryMethod" 
+              value="speedy" 
+              checked={deliveryMethod === "speedy"} 
+              onChange={() => { setDeliveryMethod("speedy"); setAddressValue(""); }} 
             />
             До офис на Спиди
           </label>
           <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
-            <input
-              type="radio"
-              name="deliveryMethod"
-              value="address"
-              checked={deliveryMethod === "address"}
-              onChange={() => { setDeliveryMethod("address"); setAddressValue(""); }}
+            <input 
+              type="radio" 
+              name="deliveryMethod" 
+              value="address" 
+              checked={deliveryMethod === "address"} 
+              onChange={() => { setDeliveryMethod("address"); setAddressValue(""); }} 
             />
             До личен адрес
           </label>
