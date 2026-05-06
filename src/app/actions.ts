@@ -23,6 +23,37 @@ export async function submitOrder(formData: FormData) {
     status: 'pending'
   });
 
+  // Send Discord Notification if webhook is configured
+  if (process.env.DISCORD_WEBHOOK_URL) {
+    try {
+      const message = {
+        embeds: [
+          {
+            title: "🎉 New Order Received!",
+            color: 0x00ff00, // Green color
+            fields: [
+              { name: "Name", value: name, inline: true },
+              { name: "Phone", value: phone, inline: true },
+              { name: "Scoops", value: scoops.toString(), inline: true },
+              { name: "Address", value: address },
+            ],
+            timestamp: new Date().toISOString(),
+          }
+        ]
+      };
+
+      await fetch(process.env.DISCORD_WEBHOOK_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(message),
+      });
+    } catch (error) {
+      console.error("Failed to send Discord notification:", error);
+    }
+  }
+
   redirect("/success");
 }
 
