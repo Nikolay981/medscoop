@@ -43,6 +43,11 @@ export async function markOrderCompleted(id: number) {
   await updateOrderStatus(id, 'completed');
 }
 
+export async function toggleOrderTickAction(id: number, field: 'is_done' | 'is_taken' | 'is_sent' | 'is_uploaded', value: boolean) {
+  const { toggleOrderTick } = await import("@/lib/db");
+  await toggleOrderTick(id, field, value);
+}
+
 export async function logoutAdmin() {
   const cookieStore = await cookies();
   cookieStore.delete("medscoop_admin");

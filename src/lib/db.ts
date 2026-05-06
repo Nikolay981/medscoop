@@ -8,6 +8,10 @@ export interface Order {
   scoops: number;
   status: 'pending' | 'completed';
   createdat?: string;
+  is_done?: boolean;
+  is_taken?: boolean;
+  is_sent?: boolean;
+  is_uploaded?: boolean;
 }
 
 export async function initDb() {
@@ -22,6 +26,16 @@ export async function initDb() {
       createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
   `;
+
+  // Add the new tick columns safely
+  try {
+    await sql`ALTER TABLE orders ADD COLUMN IF NOT EXISTS is_done BOOLEAN DEFAULT false`;
+    await sql`ALTER TABLE orders ADD COLUMN IF NOT EXISTS is_taken BOOLEAN DEFAULT false`;
+    await sql`ALTER TABLE orders ADD COLUMN IF NOT EXISTS is_sent BOOLEAN DEFAULT false`;
+    await sql`ALTER TABLE orders ADD COLUMN IF NOT EXISTS is_uploaded BOOLEAN DEFAULT false`;
+  } catch (e) {
+    console.error('Migration error:', e);
+  }
 }
 
 export async function createOrder(order: Order) {
@@ -32,10 +46,22 @@ export async function createOrder(order: Order) {
 }
 
 export async function getOrders(): Promise<Order[]> {
+  // Ensure DB is initialized to have columns
+  try { await initDb(); } catch (e) {}
+
   const { rows } = await sql`SELECT * FROM orders ORDER BY createdat DESC`;
   return rows as Order[];
 }
 
 export async function updateOrderStatus(id: number, status: 'pending' | 'completed') {
   return sql`UPDATE orders SET status = ${status} WHERE id = ${id}`;
+}
+
+export async function toggleOrderTick(id: number, field: 'is_done' | 'is_taken' | 'is_sent' | 'is_uploaded', value: boolean) {
+  // We have to interpolate the column name manually because sql`` doesn't support dynamic column names easily,
+  // but it's safe since field is strongly typed.
+  if (field === 'is_done') return sql`UPDATE orders SET is_done = ${value} WHERE id = ${id}`;
+  if (field === 'is_taken') return sql`UPDATE orders SET is_taken = ${value} WHERE id = ${id}`;
+  if (field === 'is_sent') return sql`UPDATE orders SET is_sent = ${value} WHERE id = ${id}`;
+  if (field === 'is_uploaded') return sql`UPDATE orders SET is_uploaded = ${value} WHERE id = ${id}`;
 }

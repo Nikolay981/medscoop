@@ -1,5 +1,5 @@
 import { getOrders } from "@/lib/db";
-import { AdminOrderActions, LogoutButton } from "./components";
+import { AdminOrderActions, LogoutButton, OrderTicks } from "./components";
 
 export const dynamic = 'force-dynamic';
 
@@ -24,6 +24,7 @@ export default async function AdminDashboard() {
               <th style={{ padding: "1rem", whiteSpace: "nowrap" }}>Лъжички</th>
               <th style={{ padding: "1rem" }}>Адрес</th>
               <th style={{ padding: "1rem", whiteSpace: "nowrap" }}>Статус</th>
+              <th style={{ padding: "1rem", whiteSpace: "nowrap" }}>Прогрес</th>
               <th style={{ padding: "1rem", whiteSpace: "nowrap" }}>Действие</th>
             </tr>
           </thead>
@@ -48,6 +49,15 @@ export default async function AdminDashboard() {
                       ? <span className="badge" style={{ background: "rgba(245, 158, 11, 0.1)", color: "#d97706" }}>Чакаща</span>
                       : <span className="badge" style={{ background: "rgba(16, 185, 129, 0.1)", color: "var(--success)" }}>Завършена</span>
                     }
+                  </td>
+                  <td style={{ padding: "1rem", whiteSpace: "nowrap" }}>
+                    <OrderTicks 
+                      orderId={order.id!} 
+                      initialDone={!!order.is_done}
+                      initialTaken={!!order.is_taken}
+                      initialSent={!!order.is_sent}
+                      initialUploaded={!!order.is_uploaded}
+                    />
                   </td>
                   <td style={{ padding: "1rem", whiteSpace: "nowrap" }}>
                     <AdminOrderActions orderId={order.id!} status={order.status} />
