@@ -97,39 +97,36 @@ export default function OrderForm() {
 
       <div className="input-group">
         <label><Truck size={16} style={{ display: 'inline', marginBottom: '-3px' }} /> Начин на доставка</label>
-        <div style={{ display: 'flex', gap: '1rem', marginTop: '0.5rem', flexWrap: 'wrap' }}>
-          <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', cursor: 'pointer' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.5rem' }}>
+          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
             <input
               type="radio"
               name="deliveryMethod"
               value="econt"
-              style={{ marginTop: '0.25rem', flexShrink: 0 }}
               checked={deliveryMethod === "econt"}
               onChange={() => { setDeliveryMethod("econt"); setAddressValue(""); }}
             />
-            <span style={{ lineHeight: '1.4' }}>До офис на Еконт</span>
+            До офис на Еконт
           </label>
-          <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', cursor: 'pointer' }}>
+          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
             <input
               type="radio"
               name="deliveryMethod"
               value="speedy"
-              style={{ marginTop: '0.25rem', flexShrink: 0 }}
               checked={deliveryMethod === "speedy"}
               onChange={() => { setDeliveryMethod("speedy"); setAddressValue(""); }}
             />
-            <span style={{ lineHeight: '1.4' }}>До офис на Спиди</span>
+            До офис на Спиди
           </label>
-          <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', cursor: 'pointer' }}>
+          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
             <input
               type="radio"
               name="deliveryMethod"
               value="address"
-              style={{ marginTop: '0.25rem', flexShrink: 0 }}
               checked={deliveryMethod === "address"}
               onChange={() => { setDeliveryMethod("address"); setAddressValue(""); }}
             />
-            <span style={{ lineHeight: '1.4' }}>До личен адрес</span>
+            До личен адрес
           </label>
         </div>
       </div>
