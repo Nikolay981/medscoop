@@ -97,32 +97,35 @@ export default function OrderForm() {
 
       <div className="input-group">
         <label><Truck size={16} style={{display:'inline', marginBottom:'-3px'}}/> Начин на доставка</label>
-        <div style={{ display: 'flex', gap: '1rem', marginTop: '0.5rem', flexWrap: 'wrap' }}>
-          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.5rem' }}>
+          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', whiteSpace: 'nowrap' }}>
             <input 
               type="radio" 
               name="deliveryMethod" 
               value="econt" 
+              style={{ margin: 0 }}
               checked={deliveryMethod === "econt"} 
               onChange={() => { setDeliveryMethod("econt"); setAddressValue(""); }} 
             />
             До офис на Еконт
           </label>
-          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', whiteSpace: 'nowrap' }}>
             <input 
               type="radio" 
               name="deliveryMethod" 
               value="speedy" 
+              style={{ margin: 0 }}
               checked={deliveryMethod === "speedy"} 
               onChange={() => { setDeliveryMethod("speedy"); setAddressValue(""); }} 
             />
             До офис на Спиди
           </label>
-          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', whiteSpace: 'nowrap' }}>
             <input 
               type="radio" 
               name="deliveryMethod" 
               value="address" 
+              style={{ margin: 0 }}
               checked={deliveryMethod === "address"} 
               onChange={() => { setDeliveryMethod("address"); setAddressValue(""); }} 
             />
