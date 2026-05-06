@@ -11,7 +11,7 @@ export default function OrderForm() {
   const [scoops, setScoops] = useState<number>(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [deliveryMethod, setDeliveryMethod] = useState<DeliveryMethod>("econt");
-  const [econtOffices, setEcontOffices] = useState<{name: string, address: string}[]>([]);
+  const [econtOffices, setEcontOffices] = useState<{ name: string, address: string }[]>([]);
   const [addressValue, setAddressValue] = useState("");
 
   useEffect(() => {
@@ -21,17 +21,17 @@ export default function OrderForm() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ countryCode: 'BGR' })
     })
-    .then(res => res.json())
-    .then(data => {
-      if (data && data.offices) {
-        const mapped = data.offices.map((o: any) => ({
-          name: o.name,
-          address: o.address?.fullAddress || ""
-        }));
-        setEcontOffices(mapped);
-      }
-    })
-    .catch(err => console.error("Failed to load Econt offices:", err));
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.offices) {
+          const mapped = data.offices.map((o: any) => ({
+            name: o.name,
+            address: o.address?.fullAddress || ""
+          }));
+          setEcontOffices(mapped);
+        }
+      })
+      .catch(err => console.error("Failed to load Econt offices:", err));
   }, []);
 
   const prices = [
@@ -42,17 +42,17 @@ export default function OrderForm() {
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const filteredOffices = addressValue 
+  const filteredOffices = addressValue
     ? econtOffices.filter(o => (`${o.name} - ${o.address}`).toLowerCase().includes(addressValue.toLowerCase())).slice(0, 50)
     : econtOffices.slice(0, 50);
 
   return (
-    <form 
-      className={styles.form} 
+    <form
+      className={styles.form}
       action={async (formData) => {
         setIsSubmitting(true);
         formData.append("scoops", scoops.toString());
-        
+
         // Format the address field correctly before sending to the server
         let finalAddress = "";
         if (deliveryMethod === "econt") {
@@ -62,7 +62,7 @@ export default function OrderForm() {
         } else {
           finalAddress = `Адрес: ${addressValue}`;
         }
-        
+
         // Set the modified address
         formData.set("address", finalAddress);
 
@@ -73,7 +73,7 @@ export default function OrderForm() {
         <h2 className={styles.title}>Избери своя МедСкууп</h2>
         <div className={styles.pricingGrid}>
           {prices.map((p) => (
-            <div 
+            <div
               key={p.scoops}
               className={`${styles.priceCard} ${scoops === p.scoops ? styles.selected : ''}`}
               onClick={() => setScoops(p.scoops)}
@@ -86,50 +86,50 @@ export default function OrderForm() {
       </div>
 
       <div className="input-group">
-        <label htmlFor="name"><User size={16} style={{display:'inline', marginBottom:'-3px'}}/> Имена</label>
+        <label htmlFor="name"><User size={16} style={{ display: 'inline', marginBottom: '-3px' }} /> Имена</label>
         <input type="text" id="name" name="name" required placeholder="Иван Иванов" />
       </div>
 
       <div className="input-group">
-        <label htmlFor="phone"><Phone size={16} style={{display:'inline', marginBottom:'-3px'}}/> Телефон</label>
+        <label htmlFor="phone"><Phone size={16} style={{ display: 'inline', marginBottom: '-3px' }} /> Телефон</label>
         <input type="tel" id="phone" name="phone" required placeholder="08XX XXX XXX" />
       </div>
 
       <div className="input-group">
-        <label><Truck size={16} style={{display:'inline', marginBottom:'-3px'}}/> Начин на доставка</label>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.5rem' }}>
-          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', whiteSpace: 'nowrap' }}>
-            <input 
-              type="radio" 
-              name="deliveryMethod" 
-              value="econt" 
-              style={{ margin: 0 }}
-              checked={deliveryMethod === "econt"} 
-              onChange={() => { setDeliveryMethod("econt"); setAddressValue(""); }} 
+        <label><Truck size={16} style={{ display: 'inline', marginBottom: '-3px' }} /> Начин на доставка</label>
+        <div style={{ display: 'flex', gap: '1rem', marginTop: '0.5rem', flexWrap: 'wrap' }}>
+          <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', cursor: 'pointer' }}>
+            <input
+              type="radio"
+              name="deliveryMethod"
+              value="econt"
+              style={{ marginTop: '0.25rem', flexShrink: 0 }}
+              checked={deliveryMethod === "econt"}
+              onChange={() => { setDeliveryMethod("econt"); setAddressValue(""); }}
             />
-            До офис на Еконт
+            <span style={{ lineHeight: '1.4' }}>До офис на Еконт</span>
           </label>
-          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', whiteSpace: 'nowrap' }}>
-            <input 
-              type="radio" 
-              name="deliveryMethod" 
-              value="speedy" 
-              style={{ margin: 0 }}
-              checked={deliveryMethod === "speedy"} 
-              onChange={() => { setDeliveryMethod("speedy"); setAddressValue(""); }} 
+          <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', cursor: 'pointer' }}>
+            <input
+              type="radio"
+              name="deliveryMethod"
+              value="speedy"
+              style={{ marginTop: '0.25rem', flexShrink: 0 }}
+              checked={deliveryMethod === "speedy"}
+              onChange={() => { setDeliveryMethod("speedy"); setAddressValue(""); }}
             />
-            До офис на Спиди
+            <span style={{ lineHeight: '1.4' }}>До офис на Спиди</span>
           </label>
-          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', whiteSpace: 'nowrap' }}>
-            <input 
-              type="radio" 
-              name="deliveryMethod" 
-              value="address" 
-              style={{ margin: 0 }}
-              checked={deliveryMethod === "address"} 
-              onChange={() => { setDeliveryMethod("address"); setAddressValue(""); }} 
+          <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', cursor: 'pointer' }}>
+            <input
+              type="radio"
+              name="deliveryMethod"
+              value="address"
+              style={{ marginTop: '0.25rem', flexShrink: 0 }}
+              checked={deliveryMethod === "address"}
+              onChange={() => { setDeliveryMethod("address"); setAddressValue(""); }}
             />
-            До личен адрес
+            <span style={{ lineHeight: '1.4' }}>До личен адрес</span>
           </label>
         </div>
       </div>
@@ -137,13 +137,13 @@ export default function OrderForm() {
       <div className="input-group" style={{ marginTop: '1rem' }}>
         {deliveryMethod === "econt" && (
           <>
-            <label htmlFor="addressInput"><MapPin size={16} style={{display:'inline', marginBottom:'-3px'}}/> Избери офис на Еконт</label>
+            <label htmlFor="addressInput"><MapPin size={16} style={{ display: 'inline', marginBottom: '-3px' }} /> Избери офис на Еконт</label>
             <div style={{ position: 'relative' }}>
-              <input 
-                type="text" 
+              <input
+                type="text"
                 id="addressInput"
-                required 
-                placeholder="Започни да въвеждаш град или име на офис..." 
+                required
+                placeholder="Започни да въвеждаш град или име на офис..."
                 value={addressValue}
                 onChange={(e) => {
                   setAddressValue(e.target.value);
@@ -171,7 +171,7 @@ export default function OrderForm() {
                   boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
                 }}>
                   {filteredOffices.map((office, idx) => (
-                    <li 
+                    <li
                       key={idx}
                       style={{ padding: '0.75rem', cursor: 'pointer', borderBottom: '1px solid var(--border)', color: 'var(--text-main)', fontSize: '0.875rem' }}
                       onMouseDown={(e) => {
@@ -180,7 +180,7 @@ export default function OrderForm() {
                         setIsDropdownOpen(false);
                       }}
                     >
-                      <strong>{office.name}</strong><br/>
+                      <strong>{office.name}</strong><br />
                       <span style={{ fontSize: '0.8em', color: 'var(--text-muted)' }}>{office.address}</span>
                     </li>
                   ))}
@@ -189,15 +189,15 @@ export default function OrderForm() {
             </div>
           </>
         )}
-        
+
         {deliveryMethod === "speedy" && (
           <>
-            <label htmlFor="addressInput"><MapPin size={16} style={{display:'inline', marginBottom:'-3px'}}/> Въведи град и офис на Спиди</label>
-            <textarea 
+            <label htmlFor="addressInput"><MapPin size={16} style={{ display: 'inline', marginBottom: '-3px' }} /> Въведи град и офис на Спиди</label>
+            <textarea
               id="addressInput"
-              rows={2} 
-              required 
-              placeholder="Гр. София, офис Спиди - Лозенец..." 
+              rows={2}
+              required
+              placeholder="Гр. София, офис Спиди - Лозенец..."
               value={addressValue}
               onChange={(e) => setAddressValue(e.target.value)}
             />
@@ -206,12 +206,12 @@ export default function OrderForm() {
 
         {deliveryMethod === "address" && (
           <>
-            <label htmlFor="addressInput"><MapPin size={16} style={{display:'inline', marginBottom:'-3px'}}/> Въведи точен адрес</label>
-            <textarea 
+            <label htmlFor="addressInput"><MapPin size={16} style={{ display: 'inline', marginBottom: '-3px' }} /> Въведи точен адрес</label>
+            <textarea
               id="addressInput"
-              rows={3} 
-              required 
-              placeholder="Гр. София, ул. ..." 
+              rows={3}
+              required
+              placeholder="Гр. София, ул. ..."
               value={addressValue}
               onChange={(e) => setAddressValue(e.target.value)}
             />
