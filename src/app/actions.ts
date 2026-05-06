@@ -28,8 +28,8 @@ export async function submitOrder(formData: FormData) {
 
 export async function loginAdmin(formData: FormData) {
   const password = formData.get("password") as string;
-  
-  if (password === "medscoop2026") {
+
+  if (password === "0883687058") {
     const cookieStore = await cookies();
     cookieStore.set("medscoop_admin", "true", { httpOnly: true, secure: process.env.NODE_ENV === "production" });
     redirect("/admin");
