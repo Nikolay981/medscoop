@@ -23,6 +23,7 @@ export default async function AdminDashboard() {
               <th style={{ padding: "1rem", whiteSpace: "nowrap" }}>Телефон</th>
               <th style={{ padding: "1rem", whiteSpace: "nowrap" }}>Лъжички</th>
               <th style={{ padding: "1rem" }}>Адрес</th>
+              <th style={{ padding: "1rem" }}>Бележки</th>
               <th style={{ padding: "1rem", whiteSpace: "nowrap" }}>Статус</th>
               <th style={{ padding: "1rem", whiteSpace: "nowrap" }}>Прогрес</th>
               <th style={{ padding: "1rem", whiteSpace: "nowrap" }}>Действие</th>
@@ -31,7 +32,7 @@ export default async function AdminDashboard() {
           <tbody>
             {orders.length === 0 ? (
               <tr>
-                <td colSpan={8} style={{ padding: "2rem", textAlign: "center", color: "var(--text-muted)" }}>
+                <td colSpan={10} style={{ padding: "2rem", textAlign: "center", color: "var(--text-muted)" }}>
                   Няма поръчки все още.
                 </td>
               </tr>
@@ -44,6 +45,7 @@ export default async function AdminDashboard() {
                   <td style={{ padding: "1rem", whiteSpace: "nowrap" }}>{order.phone}</td>
                   <td style={{ padding: "1rem", fontWeight: "bold", color: "var(--primary-dark)", whiteSpace: "nowrap" }}>{order.scoops} бр.</td>
                   <td style={{ padding: "1rem", minWidth: "200px", maxWidth: "300px", wordBreak: "break-word" }}>{order.address}</td>
+                  <td style={{ padding: "1rem", minWidth: "150px", maxWidth: "250px", wordBreak: "break-word", color: "var(--text-muted)", fontSize: "0.875rem" }}>{order.notes || "-"}</td>
                   <td style={{ padding: "1rem", whiteSpace: "nowrap" }}>
                     {order.status === 'pending' 
                       ? <span className="badge" style={{ background: "rgba(245, 158, 11, 0.1)", color: "#d97706" }}>Чакаща</span>

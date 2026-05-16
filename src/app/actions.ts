@@ -10,6 +10,7 @@ export async function submitOrder(formData: FormData) {
   const phone = formData.get("phone") as string;
   const address = formData.get("address") as string;
   const scoops = parseInt(formData.get("scoops") as string, 10);
+  const notes = formData.get("notes") as string;
 
   if (!name || !phone || !address || !scoops) {
     throw new Error("Missing fields");
@@ -20,7 +21,8 @@ export async function submitOrder(formData: FormData) {
     phone,
     address,
     scoops,
-    status: 'pending'
+    status: 'pending',
+    notes
   });
 
   // Send Discord Notification
@@ -38,6 +40,7 @@ export async function submitOrder(formData: FormData) {
               { name: "Phone", value: phone, inline: true },
               { name: "Scoops", value: scoops.toString(), inline: true },
               { name: "Address", value: address },
+              ...(notes ? [{ name: "Notes", value: notes }] : []),
             ],
             timestamp: new Date().toISOString(),
           }

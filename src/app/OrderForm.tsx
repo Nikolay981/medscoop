@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { submitOrder } from "./actions";
 import styles from "./page.module.css";
-import { ShoppingBag, User, Phone, MapPin, Truck } from "lucide-react";
+import { ShoppingBag, User, Phone, MapPin, Truck, FileText } from "lucide-react";
 
 type DeliveryMethod = "address" | "econt" | "speedy";
 
@@ -214,6 +214,16 @@ export default function OrderForm() {
             />
           </>
         )}
+      </div>
+
+      <div className="input-group" style={{ marginTop: '1rem', marginBottom: '1rem' }}>
+        <label htmlFor="notes"><FileText size={16} style={{ display: 'inline', marginBottom: '-3px' }} /> Бележки</label>
+        <textarea
+          id="notes"
+          name="notes"
+          rows={2}
+          placeholder="Предпочитан цвят, в коя клиника работите и допълнителна информация..."
+        />
       </div>
 
       <button type="submit" className={`btn btn-primary ${styles.submitBtn}`} disabled={isSubmitting}>

@@ -12,6 +12,7 @@ export interface Order {
   is_taken?: boolean;
   is_sent?: boolean;
   is_uploaded?: boolean;
+  notes?: string;
 }
 
 export async function initDb() {
@@ -33,6 +34,7 @@ export async function initDb() {
     await sql`ALTER TABLE orders ADD COLUMN IF NOT EXISTS is_taken BOOLEAN DEFAULT false`;
     await sql`ALTER TABLE orders ADD COLUMN IF NOT EXISTS is_sent BOOLEAN DEFAULT false`;
     await sql`ALTER TABLE orders ADD COLUMN IF NOT EXISTS is_uploaded BOOLEAN DEFAULT false`;
+    await sql`ALTER TABLE orders ADD COLUMN IF NOT EXISTS notes TEXT`;
   } catch (e) {
     console.error('Migration error:', e);
   }
@@ -40,8 +42,8 @@ export async function initDb() {
 
 export async function createOrder(order: Order) {
   return sql`
-    INSERT INTO orders (name, phone, address, scoops, status)
-    VALUES (${order.name}, ${order.phone}, ${order.address}, ${order.scoops}, 'pending')
+    INSERT INTO orders (name, phone, address, scoops, status, notes)
+    VALUES (${order.name}, ${order.phone}, ${order.address}, ${order.scoops}, 'pending', ${order.notes || null})
   `;
 }
 
